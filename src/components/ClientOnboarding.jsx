@@ -19,20 +19,20 @@ const ClientOnboarding = () => {
     industry: '',
     companySize: '',
     website: '',
-    
+
     // Contact Info
     name: '',
     email: '',
     phone: '',
     role: '',
-    
+
     // Business Needs
     currentChallenges: [],
     automationGoals: [],
     timeSpentOnTasks: '',
     budget: '',
     timeline: '',
-    
+
     // Current Tools
     currentTools: [],
     integrationNeeds: [],
@@ -80,40 +80,40 @@ const ClientOnboarding = () => {
   ];
 
   const industries = [
-    'Technology', 'Healthcare', 'Finance', 'E-commerce', 'Manufacturing',
-    'Education', 'Real Estate', 'Marketing/Advertising', 'Consulting', 'Other'
+    'Technology', 'Healthcare', 'Finance', 'Education', 'Manufacturing',
+    'Retail', 'Real Estate', 'Legal', 'Consulting', 'Marketing', 'Other'
   ];
 
   const companySizes = [
     '1-10 employees', '11-50 employees', '51-200 employees', 
-    '201-1000 employees', '1000+ employees'
+    '201-500 employees', '501-1000 employees', '1000+ employees'
   ];
 
-  const challenges = [
-    'Manual data entry', 'Email management', 'Customer support',
-    'Lead generation', 'Social media management', 'Report generation',
-    'Invoice processing', 'Appointment scheduling', 'Inventory management'
+  const challengeOptions = [
+    'Manual data entry', 'Email management', 'Report generation',
+    'Customer support', 'Scheduling', 'Document processing',
+    'Lead qualification', 'Social media management', 'Inventory tracking'
   ];
 
-  const automationGoals = [
-    'Save time', 'Reduce errors', 'Improve customer experience',
-    'Scale operations', 'Cut costs', 'Better reporting',
-    'Streamline workflows', 'Integrate systems'
+  const goalOptions = [
+    'Reduce manual work', 'Improve efficiency', 'Save costs',
+    'Better customer experience', 'Scale operations', 'Reduce errors',
+    'Free up time for strategic work', 'Improve data accuracy'
   ];
 
-  const currentTools = [
-    'CRM (Salesforce, HubSpot)', 'Email (Gmail, Outlook)', 'Project Management (Asana, Trello)',
-    'Accounting (QuickBooks, Xero)', 'Social Media Tools', 'E-commerce Platforms',
-    'Communication (Slack, Teams)', 'Google Workspace', 'Microsoft 365'
+  const toolOptions = [
+    'CRM (Salesforce, HubSpot)', 'Email (Gmail, Outlook)', 'Slack/Teams',
+    'Google Workspace', 'Microsoft 365', 'Zapier', 'Calendly',
+    'QuickBooks', 'Shopify', 'WordPress', 'Social Media Tools'
   ];
 
   const budgetRanges = [
     'Under $1,000/month', '$1,000-$5,000/month', '$5,000-$15,000/month',
-    '$15,000-$50,000/month', 'Over $50,000/month'
+    '$15,000-$50,000/month', 'Over $50,000/month', 'Need consultation'
   ];
 
-  const timelines = [
-    'ASAP (within 2 weeks)', '1 month', '2-3 months', '3-6 months', '6+ months'
+  const timelineOptions = [
+    'ASAP', '1-3 months', '3-6 months', '6-12 months', 'Just exploring'
   ];
 
   return (
@@ -213,7 +213,9 @@ const ClientOnboarding = () => {
                   >
                     <option value="" className="bg-gray-800">Select Industry</option>
                     {industries.map(industry => (
-                      <option key={industry} value={industry} className="bg-gray-800">{industry}</option>
+                      <option key={industry} value={industry} className="bg-gray-800">
+                        {industry}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -229,7 +231,9 @@ const ClientOnboarding = () => {
                   >
                     <option value="" className="bg-gray-800">Select Company Size</option>
                     {companySizes.map(size => (
-                      <option key={size} value={size} className="bg-gray-800">{size}</option>
+                      <option key={size} value={size} className="bg-gray-800">
+                        {size}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -242,7 +246,7 @@ const ClientOnboarding = () => {
                     value={formData.website}
                     onChange={(e) => handleInputChange('website', e.target.value)}
                     className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                    placeholder="https://www.example.com"
+                    placeholder="https://www.company.com"
                   />
                 </div>
               </div>
@@ -262,7 +266,7 @@ const ClientOnboarding = () => {
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
                     className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                    placeholder="John Doe"
+                    placeholder="John Smith"
                     required
                   />
                 </div>
@@ -275,7 +279,7 @@ const ClientOnboarding = () => {
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                    placeholder="john@example.com"
+                    placeholder="john@company.com"
                     required
                   />
                 </div>
@@ -293,7 +297,7 @@ const ClientOnboarding = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Role *
+                    Role/Title *
                   </label>
                   <input
                     type="text"
@@ -310,20 +314,20 @@ const ClientOnboarding = () => {
 
           {currentStep === 3 && (
             <div>
-              <h2 className="text-2xl font-bold text-white mb-6">Business Needs & Goals</h2>
+              <h2 className="text-2xl font-bold text-white mb-6">Business Needs Assessment</h2>
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Current Challenges (Select all that apply)
+                    What are your current challenges? (Select all that apply)
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {challenges.map(challenge => (
-                      <label key={challenge} className="flex items-center">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {challengeOptions.map(challenge => (
+                      <label key={challenge} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={formData.currentChallenges.includes(challenge)}
                           onChange={(e) => handleArrayChange('currentChallenges', challenge, e.target.checked)}
-                          className="mr-2 h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-gray-300 rounded"
+                          className="w-4 h-4 text-cyan-500 bg-transparent border-gray-400 rounded focus:ring-cyan-400"
                         />
                         <span className="text-gray-300 text-sm">{challenge}</span>
                       </label>
@@ -333,16 +337,16 @@ const ClientOnboarding = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Automation Goals (Select all that apply)
+                    What are your automation goals? (Select all that apply)
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                    {automationGoals.map(goal => (
-                      <label key={goal} className="flex items-center">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {goalOptions.map(goal => (
+                      <label key={goal} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={formData.automationGoals.includes(goal)}
                           onChange={(e) => handleArrayChange('automationGoals', goal, e.target.checked)}
-                          className="mr-2 h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-gray-300 rounded"
+                          className="w-4 h-4 text-cyan-500 bg-transparent border-gray-400 rounded focus:ring-cyan-400"
                         />
                         <span className="text-gray-300 text-sm">{goal}</span>
                       </label>
@@ -353,35 +357,35 @@ const ClientOnboarding = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Time Spent on Repetitive Tasks (per week) *
+                      How many hours per week does your team spend on repetitive tasks?
                     </label>
                     <select
                       value={formData.timeSpentOnTasks}
                       onChange={(e) => handleInputChange('timeSpentOnTasks', e.target.value)}
                       className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                      required
                     >
-                      <option value="" className="bg-gray-800">Select Time Range</option>
+                      <option value="" className="bg-gray-800">Select hours per week</option>
                       <option value="1-5 hours" className="bg-gray-800">1-5 hours</option>
-                      <option value="6-15 hours" className="bg-gray-800">6-15 hours</option>
-                      <option value="16-25 hours" className="bg-gray-800">16-25 hours</option>
-                      <option value="26-40 hours" className="bg-gray-800">26-40 hours</option>
+                      <option value="5-10 hours" className="bg-gray-800">5-10 hours</option>
+                      <option value="10-20 hours" className="bg-gray-800">10-20 hours</option>
+                      <option value="20-40 hours" className="bg-gray-800">20-40 hours</option>
                       <option value="40+ hours" className="bg-gray-800">40+ hours</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Budget Range *
+                      What's your budget range for automation?
                     </label>
                     <select
                       value={formData.budget}
                       onChange={(e) => handleInputChange('budget', e.target.value)}
                       className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                      required
                     >
-                      <option value="" className="bg-gray-800">Select Budget Range</option>
+                      <option value="" className="bg-gray-800">Select budget range</option>
                       {budgetRanges.map(range => (
-                        <option key={range} value={range} className="bg-gray-800">{range}</option>
+                        <option key={range} value={range} className="bg-gray-800">
+                          {range}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -389,17 +393,18 @@ const ClientOnboarding = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Preferred Timeline *
+                    What's your timeline for implementation?
                   </label>
                   <select
                     value={formData.timeline}
                     onChange={(e) => handleInputChange('timeline', e.target.value)}
                     className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                    required
                   >
-                    <option value="" className="bg-gray-800">Select Timeline</option>
-                    {timelines.map(timeline => (
-                      <option key={timeline} value={timeline} className="bg-gray-800">{timeline}</option>
+                    <option value="" className="bg-gray-800">Select timeline</option>
+                    {timelineOptions.map(timeline => (
+                      <option key={timeline} value={timeline} className="bg-gray-800">
+                        {timeline}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -413,16 +418,16 @@ const ClientOnboarding = () => {
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Current Tools & Platforms (Select all that apply)
+                    What tools are you currently using? (Select all that apply)
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {currentTools.map(tool => (
-                      <label key={tool} className="flex items-center">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {toolOptions.map(tool => (
+                      <label key={tool} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={formData.currentTools.includes(tool)}
                           onChange={(e) => handleArrayChange('currentTools', tool, e.target.checked)}
-                          className="mr-2 h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-gray-300 rounded"
+                          className="w-4 h-4 text-cyan-500 bg-transparent border-gray-400 rounded focus:ring-cyan-400"
                         />
                         <span className="text-gray-300 text-sm">{tool}</span>
                       </label>
@@ -432,29 +437,18 @@ const ClientOnboarding = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Integration Needs (Select all that apply)
+                    Which integrations are most important to you? (Select all that apply)
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      'Connect CRM with email marketing',
-                      'Sync data between platforms',
-                      'Automate lead scoring',
-                      'Customer support ticket routing',
-                      'Social media posting',
-                      'Report generation and distribution',
-                      'E-commerce order processing',
-                      'Calendar scheduling automation',
-                      'Document generation',
-                      'Data backup and sync'
-                    ].map(need => (
-                      <label key={need} className="flex items-center">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {toolOptions.map(integration => (
+                      <label key={integration} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={formData.integrationNeeds.includes(need)}
-                          onChange={(e) => handleArrayChange('integrationNeeds', need, e.target.checked)}
-                          className="mr-2 h-4 w-4 text-cyan-500 focus:ring-cyan-400 border-gray-300 rounded"
+                          checked={formData.integrationNeeds.includes(integration)}
+                          onChange={(e) => handleArrayChange('integrationNeeds', integration, e.target.checked)}
+                          className="w-4 h-4 text-cyan-500 bg-transparent border-gray-400 rounded focus:ring-cyan-400"
                         />
-                        <span className="text-gray-300 text-sm">{need}</span>
+                        <span className="text-gray-300 text-sm">{integration}</span>
                       </label>
                     ))}
                   </div>
@@ -467,8 +461,9 @@ const ClientOnboarding = () => {
                   <textarea
                     value={formData.additionalInfo}
                     onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
-                    className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 h-32 resize-none"
-                    placeholder="Tell us about any specific requirements, pain points, or questions you have..."
+                    rows={4}
+                    className="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    placeholder="Tell us anything else about your business, specific requirements, or questions you have..."
                   />
                 </div>
               </div>
@@ -476,34 +471,34 @@ const ClientOnboarding = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-between items-center mt-8">
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
               className={`flex items-center px-6 py-3 rounded-lg transition-all ${
                 currentStep === 1
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30'
+                  ? 'text-gray-500 cursor-not-allowed'
+                  : 'text-white border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10'
               }`}
             >
               <ArrowLeftIcon className="h-4 w-4 mr-2" />
               Previous
             </button>
 
-            {currentStep === totalSteps ? (
-              <button
-                onClick={handleSubmit}
-                className="flex items-center px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all font-semibold"
-              >
-                Submit Application
-              </button>
-            ) : (
+            {currentStep < totalSteps ? (
               <button
                 onClick={nextStep}
                 className="flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
               >
                 Next
                 <ArrowRightIcon className="h-4 w-4 ml-2" />
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="flex items-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all font-semibold"
+              >
+                Submit Application
               </button>
             )}
           </div>
