@@ -1,27 +1,36 @@
 {
   "name": "ai-automation-agency",
-  "version": "1.0.0",
-  "description": "A polished React landing page and client onboarding tool for AI Automation Agency services",
-  "main": "src/index.js",
+  "version": "1.1.0",
+  "description": "A focused automation service website with validated, durable customer intake and an operator-only lead workflow",
+  "main": "server/index.mjs",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite --host 127.0.0.1 --port 3000",
+    "build": "vite build",
+    "start": "node --env-file-if-exists=.env server/index.mjs",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "check": "npm test && npm run build",
+    "leads": "node --env-file-if-exists=.env server/manage-leads.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0",
-    "framer-motion": "^10.16.4",
-    "@heroicons/react": "^2.0.18",
-    "react-scripts": "5.0.1"
+    "react-router-dom": "7.18.5"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.6",
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.0",
+    "@vitejs/plugin-react": "6.3.0",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
-    "tailwindcss": "^3.3.3"
+    "prettier": "3.10.1",
+    "tailwindcss": "^3.3.3",
+    "vite": "8.3.8"
   },
   "browserslist": {
     "production": [
@@ -36,14 +45,18 @@
     ]
   },
   "keywords": [
-    "react",
     "automation",
-    "ai",
-    "landing-page",
-    "onboarding",
-    "tailwindcss",
-    "framer-motion"
+    "lead-intake",
+    "react",
+    "small-business",
+    "workflow",
+    "sqlite"
   ],
   "author": "AI Automation Agency",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0 <25"
+  }
 }
