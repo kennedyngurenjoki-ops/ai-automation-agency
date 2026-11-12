@@ -1,224 +1,199 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import {
-  RocketLaunchIcon,
-  CogIcon,
-  ChartBarIcon,
-  ClockIcon,
-  UserGroupIcon,
-  CheckIcon
-} from '@heroicons/react/24/outline';
-
-const HomePage = () => {
-  const features = [
-    {
-      icon: RocketLaunchIcon,
-      title: 'Workflow Automation',
-      description: 'Streamline repetitive tasks and boost productivity with intelligent automation'
-    },
-    {
-      icon: CogIcon,
-      title: 'Custom Integrations',
-      description: 'Connect your existing tools and create seamless data flow between platforms'
-    },
-    {
-      icon: ChartBarIcon,
-      title: 'Analytics & Insights',
-      description: 'Get detailed reports and actionable insights from your automated processes'
-    },
-    {
-      icon: ClockIcon,
-      title: 'Save Time',
-      description: 'Reduce manual work by up to 80% with our intelligent automation solutions'
-    },
-    {
-      icon: UserGroupIcon,
-      title: 'Expert Support',
-      description: 'Get ongoing support from our team of automation specialists'
-    },
-    {
-      icon: CheckIcon,
-      title: 'Proven Results',
-      description: 'Join hundreds of businesses already saving time and money with our solutions'
-    }
-  ];
-
-  const benefits = [
-    'Free initial consultation and automation audit',
-    'Custom automation strategy tailored to your business',
-    '30-day money-back guarantee',
-    'Ongoing support and optimization',
-    'No long-term contracts required'
-  ];
-
+import Layout from './Layout';
+import { estimateCapacity } from '../lib/roi';
+const offers = [
+  [
+    'Lead capture & handoff',
+    'Collect enquiries in one place, validate the essentials and give your team a clear next action.',
+  ],
+  [
+    'Follow-up preparation',
+    'Prepare consistent follow-up drafts for a person to review before anything is sent.',
+  ],
+  [
+    'Less copy-and-paste',
+    'Scope a repeatable handoff between a form, spreadsheet or CRM you already use.',
+  ],
+];
+export default function HomePage() {
+  const [hours, setHours] = useState('10'),
+    [cost, setCost] = useState('15'),
+    [percent, setPercent] = useState('50');
+  const estimate = estimateCapacity(hours, cost, percent),
+    money = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    });
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-      {/* Header */}
-      <nav className="bg-white bg-opacity-10 backdrop-blur-lg border-b border-white border-opacity-20">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">AI</span>
-              </div>
-              <span className="ml-2 text-xl font-bold text-white">AutoFlow</span>
-            </div>
-            <Link
-              to="/onboarding"
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all font-semibold"
-            >
-              Start Free Consultation
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Automate Your Business.
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"> Scale Effortlessly.</span>
-          </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Transform your business with AI-powered automation. We help companies save 20+ hours per week 
-            by automating repetitive tasks, integrating systems, and optimizing workflows.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/onboarding"
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all font-semibold text-lg"
-            >
-              Get Free Automation Audit
-            </Link>
-            <button className="border-2 border-white border-opacity-30 text-white px-8 py-4 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all font-semibold text-lg">
-              View Case Studies
-            </button>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-bold text-white mb-4">Why Choose AutoFlow?</h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            We specialize in creating custom automation solutions that grow with your business
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 * index }}
-              className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 border border-white border-opacity-20 hover:bg-opacity-15 transition-all"
-            >
-              <feature.icon className="h-12 w-12 text-cyan-400 mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-              <p className="text-gray-300">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Join hundreds of businesses that have already automated their workflows and are seeing incredible results.
+    <Layout>
+      <main id="main">
+        <section className="max-w-6xl mx-auto px-5 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="eyebrow">For small service businesses</p>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-4">
+              Turn one repetitive workflow into a{' '}
+              <span className="text-cyan-300">measurable improvement.</span>
+            </h1>
+            <p className="text-lg text-slate-300 mt-6 leading-relaxed">
+              Start with lead intake, follow-up preparation or an admin handoff. Define the scope,
+              agree a price and test a small pilot before you commit to a bigger project.
             </p>
-            <ul className="space-y-4">
-              {benefits.map((benefit, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
-                  className="flex items-center text-gray-300"
-                >
-                  <CheckIcon className="h-5 w-5 text-green-400 mr-3 flex-shrink-0" />
-                  {benefit}
-                </motion.li>
+            <div className="flex flex-wrap gap-4 mt-8">
+              <Link to="/onboarding" className="button-primary">
+                Request a workflow review
+              </Link>
+              <a href="#example" className="button-secondary">
+                See an example
+              </a>
+            </div>
+            <p className="text-sm text-slate-300 mt-5">
+              No payment is taken here. You approve scope and cost before any work begins.
+            </p>
+          </div>
+          <aside className="panel">
+            <p className="eyebrow">A focused pilot, not another platform</p>
+            <h2 className="text-2xl font-semibold mt-3">
+              One workflow. Clear scope. Agreed price.
+            </h2>
+            <ul className="list-disc ml-5 space-y-4 mt-6">
+              {[
+                'Map the current process and baseline',
+                'Build and test the agreed handoff',
+                'Keep approvals with your team',
+                'Document ownership and support options',
+              ].map((x) => (
+                <li key={x}>{x}</li>
               ))}
             </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 border border-white border-opacity-20"
-          >
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">Start Your Automation Journey</h3>
-            <div className="text-center mb-6">
-              <div className="text-4xl font-bold text-cyan-400 mb-2">FREE</div>
-              <div className="text-gray-300">Initial Consultation & Audit</div>
-            </div>
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-center text-gray-300">
-                <CheckIcon className="h-4 w-4 text-green-400 mr-3" />
-                1-hour strategy session
-              </li>
-              <li className="flex items-center text-gray-300">
-                <CheckIcon className="h-4 w-4 text-green-400 mr-3" />
-                Custom automation roadmap
-              </li>
-              <li className="flex items-center text-gray-300">
-                <CheckIcon className="h-4 w-4 text-green-400 mr-3" />
-                ROI projection report
-              </li>
-              <li className="flex items-center text-gray-300">
-                <CheckIcon className="h-4 w-4 text-green-400 mr-3" />
-                No commitment required
-              </li>
-            </ul>
-            <Link
-              to="/onboarding"
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-4 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all font-semibold text-center block"
-            >
-              Schedule Free Consultation
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black bg-opacity-30 border-t border-white border-opacity-20">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">AI</span>
-              </div>
-              <span className="ml-2 text-xl font-bold text-white">AutoFlow</span>
-            </div>
-            <p className="text-gray-400 mb-4">Transforming businesses through intelligent automation</p>
-            <p className="text-sm text-gray-500">© 2026 AutoFlow. All rights reserved.</p>
+            <p className="text-sm text-slate-300 mt-6">
+              Each pilot is quoted individually. Third-party subscriptions and hosting are disclosed
+              separately.
+            </p>
+          </aside>
+        </section>
+        <section className="max-w-6xl mx-auto px-5 py-12">
+          <h2 className="text-3xl font-semibold">Start with a problem you can measure</h2>
+          <div className="grid md:grid-cols-3 gap-5 mt-8">
+            {offers.map(([title, text]) => (
+              <article key={title} className="panel">
+                <h3 className="text-xl font-semibold">{title}</h3>
+                <p className="text-slate-300 mt-3 leading-relaxed">{text}</p>
+              </article>
+            ))}
           </div>
-        </div>
-      </footer>
-    </div>
+        </section>
+        <section id="example" className="max-w-6xl mx-auto px-5 py-14 scroll-mt-8">
+          <div className="panel">
+            <p className="eyebrow">Illustrative workflow — not a client case study</p>
+            <h2 className="text-3xl font-semibold mt-3">From an enquiry to a clear next step</h2>
+            <ol className="grid md:grid-cols-4 gap-6 mt-7">
+              {[
+                'A customer completes a short form',
+                'Required information is checked',
+                'A request is saved with a receipt',
+                'Your team reviews it and follows up',
+              ].map((x, i) => (
+                <li key={x}>
+                  <span className="text-cyan-300 font-bold">0{i + 1}</span>
+                  <p className="mt-2">{x}</p>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-6 text-sm text-slate-300">
+              This website implements validated intake and durable request storage. Client-specific
+              CRM connections, notifications and follow-up delivery are separately scoped, not
+              already included integrations.
+            </p>
+          </div>
+        </section>
+        <section className="max-w-6xl mx-auto px-5 py-14 grid lg:grid-cols-2 gap-10">
+          <div>
+            <p className="eyebrow">Check the economics first</p>
+            <h2 className="text-3xl font-semibold mt-3">What could recovered time be worth?</h2>
+            <p className="text-slate-300 mt-4">
+              Use your own assumptions. This estimates staff capacity value, not cash savings,
+              revenue or profit. Subtract implementation, software and maintenance costs when
+              evaluating a pilot.
+            </p>
+          </div>
+          <div className="panel">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <label className="label">
+                Hours per week
+                <input
+                  type="number"
+                  min="0"
+                  max="168"
+                  className="input"
+                  value={hours}
+                  onChange={(e) => setHours(e.target.value)}
+                />
+              </label>
+              <label className="label">
+                Hourly cost (USD)
+                <input
+                  type="number"
+                  min="0"
+                  max="10000"
+                  className="input"
+                  value={cost}
+                  onChange={(e) => setCost(e.target.value)}
+                />
+              </label>
+              <label className="label">
+                Assumed reduction (%)
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  className="input"
+                  value={percent}
+                  onChange={(e) => setPercent(e.target.value)}
+                />
+              </label>
+            </div>
+            <div aria-live="polite" className="mt-6">
+              {estimate ? (
+                <>
+                  <p className="text-3xl font-bold text-cyan-300">
+                    {money.format(estimate.monthlyCapacityValue)} / month
+                  </p>
+                  <p className="text-sm text-slate-300 mt-2">
+                    About {estimate.monthlyHours.toFixed(1)} hours of capacity, using 4.33 weeks per
+                    month. A scenario, not a promised result.
+                  </p>
+                </>
+              ) : (
+                <p>Enter valid, non-negative values within the displayed limits.</p>
+              )}
+            </div>
+          </div>
+        </section>
+        <section className="max-w-6xl mx-auto px-5 py-14">
+          <h2 className="text-3xl font-semibold">Before you start</h2>
+          <div className="grid md:grid-cols-2 gap-5 mt-8">
+            <article className="panel">
+              <h3 className="font-semibold text-lg">Do you guarantee savings?</h3>
+              <p className="text-slate-300 mt-3">
+                No. A pilot should establish what works using your real process and a measurable
+                acceptance check. There are no fabricated case studies or guaranteed returns here.
+              </p>
+            </article>
+            <article className="panel">
+              <h3 className="font-semibold text-lg">Will AI send messages or move money?</h3>
+              <p className="text-slate-300 mt-3">
+                Not from this site. It collects a request only. Any future integration needs an
+                agreed scope, appropriate access and explicit approval rules.
+              </p>
+            </article>
+          </div>
+          <Link to="/onboarding" className="button-primary mt-10">
+            Tell us about one workflow
+          </Link>
+        </section>
+      </main>
+    </Layout>
   );
-};
-
-export default HomePage;
+}
