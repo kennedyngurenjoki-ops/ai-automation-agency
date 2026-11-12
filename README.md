@@ -1,167 +1,96 @@
-# AI Automation Agency - Client Onboarding
+# AutoFlow — customer-intake automation pilot
 
-A modern, responsive React application for AI automation agency services featuring a polished landing page and comprehensive client onboarding form.
+A small-business automation-service website with a working, consent-based intake backend.
+This is a **review candidate**, not a launched SaaS, passive-income system or guarantee of earnings.
 
-## Features
+## Included
 
-### 🎨 Modern Design
-- Gradient backgrounds and glass morphism effects
-- Responsive design for all devices
-- Smooth animations with Framer Motion
-- Beautiful UI components with Tailwind CSS
+- Responsive offer page and an explicitly hypothetical capacity-value calculator.
+- Four-step form with shared browser/server validation and privacy consent.
+- SQLite persistence with a receipt only after storage succeeds, and duplicate-safe retries.
+- Same-origin JSON API, request-size limits, basic rate limiting, a honeypot and security headers.
+- Private operator CLI to review requests, export spreadsheet-safe CSV or delete a selected receipt.
+- Configurable retention, private runtime files, tests, CI and a non-root container recipe.
 
-### 📋 Multi-Step Onboarding
-- **Step 1: Company Information** - Basic company details and industry
-- **Step 2: Contact Details** - Contact person information
-- **Step 3: Business Needs** - Challenges, goals, and budget assessment
-- **Step 4: Current Setup** - Existing tools and integration needs
+There are **no automatic emails, CRM writes, payments, AI calls or marketing subscriptions**.
+The operator must check the private queue and respond through a separately approved process.
 
-### ⚡ Key Components
-- Progress indicator with visual feedback
-- Form validation and state management
-- Interactive checkboxes for multi-select options
-- Professional styling with hero icons
+## Requirements and local setup
 
-## Technologies Used
+Use Node.js **24.x**, npm and a persistent private local disk. SQLite is built into Node.
 
-- **React 18** - Latest React with hooks
-- **React Router DOM** - Client-side routing
-- **Framer Motion** - Smooth animations and transitions
-- **Tailwind CSS** - Utility-first CSS framework
-- **Heroicons** - Beautiful SVG icons
-- **Responsive Design** - Mobile-first approach
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/kennedyngurenjoki-ops/ai-automation-agency.git
-cd ai-automation-agency
+```sh
+npm ci --ignore-scripts
+cp .env.example .env
+npm run dev
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+Open `http://localhost:3000`. Vite proxies `/api` to port 3001. The default is preview-only:
+set your real, approved `BUSINESS_NAME` and public `CONTACT_EMAIL` before accepting genuine enquiries.
+Use synthetic data while testing. Never put an API key or password into a public contact setting.
 
-3. Start the development server:
-```bash
-npm start
-```
+## Check the implementation
 
-4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-## Project Structure
-
-```
-src/
-├── components/
-│   └── ClientOnboarding.jsx    # Main onboarding component
-├── index.js                    # Entry point
-└── App.js                      # Main app component
-```
-
-## Component Features
-
-### ClientOnboarding Component
-
-The main onboarding component includes:
-
-- **Multi-step form navigation**
-- **State management** for form data
-- **Conditional rendering** for each step
-- **Array handling** for checkbox selections
-- **Responsive grid layouts**
-- **Form validation** (basic)
-
-#### Form Data Structure:
-```javascript
-{
-  // Company Info
-  companyName: '',
-  industry: '',
-  companySize: '',
-  website: '',
-
-  // Contact Info
-  name: '',
-  email: '',
-  phone: '',
-  role: '',
-
-  // Business Needs
-  currentChallenges: [],
-  automationGoals: [],
-  timeSpentOnTasks: '',
-  budget: '',
-  timeline: '',
-
-  // Current Tools
-  currentTools: [],
-  integrationNeeds: [],
-  additionalInfo: ''
-}
-```
-
-## Customization
-
-### Styling
-- Modify Tailwind classes in the component
-- Update color scheme in the gradient backgrounds
-- Customize the glass morphism effects
-
-### Form Options
-- Update industry options in the `industries` array
-- Modify company sizes in the `companySizes` array
-- Add or remove challenge/goal options
-- Update tool integration options
-
-### Functionality
-- Add form validation with libraries like Formik or react-hook-form
-- Integrate with backend APIs for form submission
-- Add email notifications
-- Implement progress saving
-
-## Deployment
-
-### Build for production:
-```bash
+```sh
+npm run format:check
+npm test
 npm run build
+npm run test:smoke
+npx playwright install --with-deps chromium
+npm run test:e2e
+npm audit
 ```
 
-### Deploy to platforms like:
-- Netlify
-- Vercel
-- GitHub Pages
-- AWS S3 + CloudFront
+See [verification](docs/VERIFICATION.md) for actual results and unresolved browser verification.
+The smoke and browser tests use synthetic data and never send a real email or payment.
 
-## Future Enhancements
+## Production model
 
-- [ ] Form validation with error messages
-- [ ] Progress saving to localStorage
-- [ ] Email integration for notifications
-- [ ] Analytics tracking
-- [ ] A/B testing capabilities
-- [ ] Multi-language support
-- [ ] Dark/light theme toggle
-- [ ] Integration with CRM systems
+```sh
+npm ci --ignore-scripts
+npm run build
+# Set .env to the approved production settings first.
+NODE_ENV=production npm start
+```
 
-## Contributing
+Run one long-lived Node process behind a controlled HTTPS reverse proxy, with a private persistent
+database volume. The same process serves the built frontend and API. **Uploading only `dist/` to
+static hosting or using an ephemeral serverless disk is not a complete deployment.**
+`npm run preview` previews static assets, not the intake backend.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+| Variable              | Purpose                                                                                                                         |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `PUBLIC_ORIGIN`       | Exact browser origin, no path or trailing slash. Local development: `http://localhost:3000`; production: approved HTTPS domain. |
+| `BUSINESS_NAME`       | Approved public business/operator identity. Required in production.                                                             |
+| `CONTACT_EMAIL`       | Monitored public contact for enquiries and data requests. Required before intake is enabled.                                    |
+| `HOST`, `PORT`        | Bind address and port; default `127.0.0.1:3001`. Containers bind `0.0.0.0` on their protected network.                          |
+| `LEADS_DB_PATH`       | File on a private persistent volume; default `data/leads.sqlite`.                                                               |
+| `LEAD_RETENTION_DAYS` | Active-database retention from 1–365 days; default 90.                                                                          |
+| `TRUSTED_PROXY_IPS`   | Exact socket addresses of reverse proxies you control; otherwise empty.                                                         |
+
+## Operate the private queue
+
+Run on the trusted host with the same environment and database path as the service:
+
+```sh
+npm run leads -- list
+npm run --silent leads -- export > /your-private-directory/requests.csv
+# Verify the requestor and receipt before an intentional deletion:
+npm run leads -- delete RECEIPT_UUID --confirm
+```
+
+Exports contain personal information. Do not commit them, serve them publicly or paste them into
+issues. No public lead-listing endpoint exists. SQLite is not encrypted by this application;
+protect the host, disk, backups and operator account. Review [deployment](docs/DEPLOYMENT.md) and
+[security](docs/SECURITY.md) before accepting real data.
+
+## Commercial next step
+
+Use the [commercial plan](docs/COMMERCIAL_PLAN.md) to validate one narrowly scoped paid intake/handoff
+pilot. Pricing is a hypothesis, not a published charge or forecast. Website polish does not prove
+market demand. Client-specific integrations, support terms, identity/contact, hosting and costs
+require owner approval before launch.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
-
-For questions or support, please reach out to our team.
-
----
-
-Built with ❤️ for businesses looking to automate and scale their operations.
+MIT. The existing [LICENSE](LICENSE) and copyright notice are preserved.
